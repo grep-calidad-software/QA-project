@@ -39,6 +39,7 @@ public class DialogoCalendar extends DialogFragment {
     TextView horas;
     private View vista;
     private Information information;
+
     private OnDialogoPersoListener listener;
     String date;
     private int hora,mins;
@@ -82,9 +83,11 @@ public class DialogoCalendar extends DialogFragment {
         botonInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 information = new Information(editText.getText().toString(),hora,mins);
                 information.setDate(date);
                 System.out.println(information);
+
                 guardarDataBase();
                 dismiss();
             }
@@ -119,6 +122,7 @@ public class DialogoCalendar extends DialogFragment {
         Map eventoTxt = new HashMap();
         eventoTxt.put("hora", hora);
         eventoTxt.put("min",mins);
+
         eventoTxt.put("evento", information.getInfo());
 
         Map calendarAdder = new HashMap();

@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -23,6 +24,7 @@ import com.example.practicaps.adaptadores.AdaptadorMensajes;
 import com.example.practicaps.utils.Mensajes.MensajeEnviar;
 import com.example.practicaps.utils.Mensajes.MensajeRecibir;
 import com.example.practicaps.utils.User;
+
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -156,8 +158,10 @@ public class ForoFragment extends Fragment {
             referenciaTipo.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
                     User user = dataSnapshot.getValue(User.class);
                     nombreUsuarioLog = user.getName();
+
                     textNombre.setText(nombreUsuarioLog);
                     btnEnviar.setEnabled(true);
                 }

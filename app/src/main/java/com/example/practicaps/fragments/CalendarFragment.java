@@ -13,14 +13,16 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.practicaps.dialogos.DialogoCalendar;
+
 import com.example.practicaps.CalendarActivity;
 import com.example.practicaps.R;
 import com.example.practicaps.utils.Information;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class CalendarFragment  extends Fragment implements View.OnClickListener {
-    // Se instancian las variables
+
     CalendarView calendarView;
     Button buttonEventos;
 
@@ -57,8 +59,6 @@ public class CalendarFragment  extends Fragment implements View.OnClickListener 
         buttonEventos.setOnClickListener(this);
     }
 
-    // Metodo donde una vez se haya creado la vista se establece que la variable date sera el dia,
-    // el mes y el año seleccionados y se inicia el dialogo donde se pueden crear eventos
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -66,7 +66,9 @@ public class CalendarFragment  extends Fragment implements View.OnClickListener 
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
                 date = dayOfMonth + "/" + (month + 1) + "/" + year;
+
                 Information information = new Information(date);
+
                 DialogoCalendar dialogoCalendario = new DialogoCalendar();
                 Bundle args = new Bundle();
                 args.putString("date",date);
@@ -80,7 +82,9 @@ public class CalendarFragment  extends Fragment implements View.OnClickListener 
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.button_eventos:
+
                 Intent intent = new Intent(getContext(), CalendarActivity.class);
+
                 intent.putExtra("date", date);
                 startActivity(intent);
                 break;

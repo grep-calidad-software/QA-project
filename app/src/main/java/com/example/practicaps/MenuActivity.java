@@ -9,7 +9,9 @@ import androidx.fragment.app.FragmentManager;
 
 import com.example.practicaps.fragments.CalendarFragment;
 import com.example.practicaps.fragments.ForoFragment;
+
 import com.example.practicaps.utils.User;
+
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -19,7 +21,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import androidx.drawerlayout.widget.DrawerLayout;
-
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
@@ -35,6 +36,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
     String userName, currentEmail;
     TextView displayedName, displayedEmail;
     Toolbar topToolbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +75,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void loadFragment(Fragment fragment) {
+
         FragmentManager manager = getSupportFragmentManager();
         manager.beginTransaction().replace(R.id.contenedor_fragments, fragment).commit();
     }
@@ -155,8 +158,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
     private void returnToLoginScreen() {
         Intent mainActivityIntent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(mainActivityIntent);
+
         finish();
     }
-
-
 }
