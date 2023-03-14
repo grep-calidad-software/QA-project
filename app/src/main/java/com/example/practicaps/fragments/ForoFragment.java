@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CalendarView;
+
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -18,16 +18,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.practicaps.EventosActivity;
 import com.example.practicaps.MainActivity;
 import com.example.practicaps.R;
 import com.example.practicaps.adaptadores.AdaptadorMensajes;
-import com.example.practicaps.dialogos.DialogoCalendar;
-import com.example.practicaps.utils.Informacion;
 import com.example.practicaps.utils.Mensajes.MensajeEnviar;
 import com.example.practicaps.utils.Mensajes.MensajeRecibir;
-import com.example.practicaps.utils.Usuarios;
-import com.google.firebase.auth.FirebaseAuth;
+import com.example.practicaps.utils.User;
+
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -35,9 +32,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class ForoFragment extends Fragment {
 
@@ -164,8 +158,10 @@ public class ForoFragment extends Fragment {
             referenciaTipo.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    Usuarios usuarios = dataSnapshot.getValue(Usuarios.class);
-                    nombreUsuarioLog = usuarios.getNombre();
+
+                    User user = dataSnapshot.getValue(User.class);
+                    nombreUsuarioLog = user.getName();
+
                     textNombre.setText(nombreUsuarioLog);
                     btnEnviar.setEnabled(true);
                 }

@@ -1,9 +1,8 @@
 package com.example.practicaps.utils.Mensajes;
 
 public class Mensaje {
-    private String nombre;
-    private String mensaje;
-    private String type_mensaje;
+
+    private String nombre, mensaje, type_mensaje;
 
     public Mensaje() {
     }
