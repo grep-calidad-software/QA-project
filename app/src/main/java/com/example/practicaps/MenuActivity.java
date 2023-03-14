@@ -24,6 +24,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,43 +32,47 @@ import android.widget.TextView;
 
 public class MenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    // Inicializo las variables que vaya a necesitar
-    String currentUser, currentEmail;
-    TextView nombreEdit, emailEdit;
-    Toolbar toolbar;
+    String userName, currentEmail;
+    TextView displayedName, displayedEmail;
+    Toolbar topToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu_activity);
 
-        // Instancio las variables
-        toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("URJC App");
-        //databaseReference = FirebaseDatabase.getInstance().getReference();
-        setSupportActionBar(toolbar);
-
-
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.open, R.string.close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        // Instancio las variables contenidas en la clase "nav_header_evaluaciones" llamando al
-        // metodo getHeaderView desde el navigation creado
-        View headView = navigationView.getHeaderView(0);
-        nombreEdit = headView.findViewById(R.id.id_nombre_apellido_perfil);
-        emailEdit = headView.findViewById(R.id.email_Perfil);
-
-        // Llamo al metodo para cambiar el nombre del usuario y el email que estan en el navigation drawler
-        cambiarNombre();
+        setUpLayoutElements();
+        setHeaderInfoToLoggedUser();
     }
 
-    //Metodo para cargar el fragment
-    private void cargarFragment(Fragment fragment) {
+    private void setUpLayoutElements(){
+        setUpTopToolbar();
+        setUpLeftDrawer();
+    }
+
+    private void setUpTopToolbar(){
+        topToolbar = findViewById(R.id.toolbar);
+        topToolbar.setTitle("URJC App");
+        setSupportActionBar(topToolbar);
+    }
+
+    private void setUpLeftDrawer(){
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggleBar = new ActionBarDrawerToggle(this, drawer, topToolbar, R.string.open, R.string.close);
+        drawer.setDrawerListener(toggleBar);
+        toggleBar.syncState();
+        setUpNavigationView();
+    }
+
+    private void setUpNavigationView(){
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        View headView = navigationView.getHeaderView(0);
+        displayedName = headView.findViewById(R.id.id_nombre_apellido_perfil);
+        displayedEmail = headView.findViewById(R.id.email_Perfil);
+    }
+
+    private void loadFragment(Fragment fragment) {
         FragmentManager manager = getSupportFragmentManager();
         manager.beginTransaction().replace(R.id.contenedor_fragments, fragment).commit();
     }
@@ -82,27 +87,27 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    // Metodo para cambiar el nombre y el email de la cabecera por los del usuario.
-    private void cambiarNombre() {
+    private void setHeaderInfoToLoggedUser() {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         String userID = auth.getCurrentUser().getUid();
-        DatabaseReference referenciaTipo = FirebaseDatabase.getInstance("https://practicaps-d596b-default-rtdb.europe-west1.firebasedatabase.app/").getReference("usuarios").child(userID);
-        referenciaTipo.addListenerForSingleValueEvent(new ValueEventListener() {
+        final String dbUrl = "https://practicaps-d596b-default-rtdb.europe-west1.firebasedatabase.app/";
+
+        DatabaseReference dbReference = FirebaseDatabase.getInstance(dbUrl).getReference("usuarios").child(userID);
+        dbReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
-                System.out.println(currentUser);
-                currentUser = user.getNombre();
+
+                assert user != null;
+                userName = user.getName();
                 currentEmail = user.getEmail();
 
-                nombreEdit.setText(currentUser);
-                emailEdit.setText(currentEmail);
+                displayedName.setText(userName);
+                displayedEmail.setText(currentEmail);
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError databaseError) {}
         });
     }
 
@@ -113,38 +118,43 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    //Menu de arriba
+    //On tap top menu
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
         if (id == R.id.cerrar_sesion) {
-            returnLogin();
+            returnToLoginScreen();
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    //Menu lateral
+    //On tap left-side menu
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.nav_calendar){
-            cargarFragment(new CalendarFragment());
-        } else if (id == R.id.nav_chat) {
-            cargarFragment(ForoFragment.newInstance(FirebaseAuth.getInstance().getCurrentUser().getUid()));
-        }else if (id == R.id.nav_cerrarSesion) {
-            returnLogin();
+
+        switch (id){
+            case R.id.nav_calendar:
+                loadFragment(new CalendarFragment());
+                break;
+            case  R.id.nav_chat:
+                loadFragment(ForoFragment.newInstance(FirebaseAuth.getInstance().getCurrentUser().getUid()));
+                break;
+            case R.id.nav_cerrarSesion:
+                returnToLoginScreen();
+                break;
         }
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return false;
     }
 
-    // Cuando se llama a este metodo se regresa a MainActivity
-    private void returnLogin() {
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(intent);
+    private void returnToLoginScreen() {
+        Intent mainActivityIntent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(mainActivityIntent);
         finish();
     }
 

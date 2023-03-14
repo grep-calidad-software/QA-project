@@ -1,15 +1,6 @@
 package com.example.practicaps;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,17 +9,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.practicaps.adaptadores.AdaptadorEventos;
-import com.example.practicaps.utils.Informacion;
+import com.example.practicaps.utils.Information;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ServerValue;
-import com.google.firebase.database.ValueEventListener;
 
-public class EventosActivity extends AppCompatActivity {
+public class CalendarActivity extends AppCompatActivity {
     private RecyclerView recyclerEventos;
     private AdaptadorEventos adaptadorEventos;
     private LinearLayoutManager linearLayoutManager;
@@ -40,7 +29,7 @@ public class EventosActivity extends AppCompatActivity {
     private String date;
     private String evento;
 
-    public EventosActivity() {
+    public CalendarActivity() {
     }
 
     @Override
@@ -83,8 +72,8 @@ public class EventosActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 System.out.println(dataSnapshot.getValue().toString());
-                Informacion i = dataSnapshot.getValue(Informacion.class);
-                i.setFecha(date);
+                Information i = dataSnapshot.getValue(Information.class);
+                i.setDate(date);
                 String eventoArray = dataSnapshot.getValue().toString();
                 String[] arrOfStr = eventoArray.split(",");
                 evento = arrOfStr[0].substring(8);

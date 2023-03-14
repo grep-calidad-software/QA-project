@@ -157,7 +157,7 @@ public class ForoFragment extends Fragment {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     User user = dataSnapshot.getValue(User.class);
-                    nombreUsuarioLog = user.getNombre();
+                    nombreUsuarioLog = user.getName();
                     textNombre.setText(nombreUsuarioLog);
                     btnEnviar.setEnabled(true);
                 }

@@ -1,45 +1,36 @@
 package com.example.practicaps.utils;
 
 public class User {
-    private String uid, email, nombre, apellido;
+    private String uid, email, name, surname;
 
-    public User(String uid, String email, String nombre, String apellido) {
+    public User(String uid, String email, String name, String surname) {
         this.uid = uid;
         this.email = email;
-        this.nombre = nombre;
-        this.apellido = apellido;
+        this.name = name;
+        this.surname = surname;
     }
 
-    public String getUid() {
-        return uid;
-    }
-
+    public String getUid() {return uid;}
     public String getEmail() {
         return email;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getName() {
+        return name;
     }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getApellido() {
-        return apellido;
-    }
-
-
+    public void setName(String name) {this.name = name;}
+    public String getSurname() {return surname;}
 
 
     @Override
     public String toString() {
         return "Usuarios{" +
-                ", apellido='" + apellido + '\'' +
+                ", apellido='" + surname + '\'' +
                 ", email='" + email + '\'' +
-                ", nombre='" + nombre + '\'' +
+                ", nombre='" + name + '\'' +
                 "uid='" + uid + '\'' +
                 '}';
     }
+
+    public User(){}
 }

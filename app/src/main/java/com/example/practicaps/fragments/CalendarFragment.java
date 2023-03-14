@@ -13,9 +13,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.practicaps.dialogos.DialogoCalendar;
-import com.example.practicaps.EventosActivity;
+import com.example.practicaps.CalendarActivity;
 import com.example.practicaps.R;
-import com.example.practicaps.utils.Informacion;
+import com.example.practicaps.utils.Information;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -66,7 +66,7 @@ public class CalendarFragment  extends Fragment implements View.OnClickListener 
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
                 date = dayOfMonth + "/" + (month + 1) + "/" + year;
-                Informacion informacion = new Informacion(date);
+                Information information = new Information(date);
                 DialogoCalendar dialogoCalendario = new DialogoCalendar();
                 Bundle args = new Bundle();
                 args.putString("date",date);
@@ -80,7 +80,7 @@ public class CalendarFragment  extends Fragment implements View.OnClickListener 
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.button_eventos:
-                Intent intent = new Intent(getContext(), EventosActivity.class);
+                Intent intent = new Intent(getContext(), CalendarActivity.class);
                 intent.putExtra("date", date);
                 startActivity(intent);
                 break;
