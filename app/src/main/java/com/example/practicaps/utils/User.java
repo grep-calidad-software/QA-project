@@ -1,22 +1,9 @@
 package com.example.practicaps.utils;
 
-public class Usuarios {
-    private String uid,email,nombre,apellido;
+public class User {
+    private String uid, email, nombre, apellido;
 
-    public Usuarios() {
-    }
-
-    public Usuarios(String uid) {
-        this.uid = uid;
-    }
-
-
-    public Usuarios(String nombre, String apellido, String ciclo) {
-        this.nombre = nombre;
-        this.apellido = apellido;
-    }
-
-    public Usuarios(String uid, String email, String nombre, String apellido) {
+    public User(String uid, String email, String nombre, String apellido) {
         this.uid = uid;
         this.email = email;
         this.nombre = nombre;
@@ -27,16 +14,8 @@ public class Usuarios {
         return uid;
     }
 
-    public void setUid(String uid) {
-        this.uid = uid;
-    }
-
     public String getEmail() {
         return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getNombre() {
@@ -51,9 +30,7 @@ public class Usuarios {
         return apellido;
     }
 
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
-    }
+
 
 
     @Override

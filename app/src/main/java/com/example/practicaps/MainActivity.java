@@ -14,12 +14,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import java.util.Iterator;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -52,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         passLog = findViewById(R.id.edit_pass_log);
         btnLog = findViewById(R.id.button_log);
         registro = findViewById(R.id.button_registro);
-        
+
     }
 
     private void admin(){
@@ -68,24 +62,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onStart();
     }
 
-    /*
-    public void onClick(View view) {
-        switch (view.getId()){
-            // Si se pulsa el boton de login se mete dentro de este caso y mediante la varaiable mAuth
-            // de la clase de autetificacion de firebase se intenta logear al usuario mediante el email y la contraseña introducidos
-            case R.id.button_log:
-                Intent menu= new Intent(getApplicationContext(), MenuActivity.class);
-                startActivity(menu);
-                break;
-
-            //Si se pulsa el boton de crear cuenta se pasa a una actividad donde el usuario se registrara
-            case R.id.button_registro:
-                Intent reg = new Intent(getApplicationContext(),RegistroActivity.class);
-                startActivity(reg);
-                break;
-        }
-    }
-    */
 
     @Override
     public void onClick(View view) {
@@ -119,9 +95,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         });
                 break;
 
-            //Si se pulsa el boton de crear cuenta se pasa a una actividad donde el usuario se registrara
             case R.id.button_registro:
-                Intent i = new Intent(getApplicationContext(),RegistroActivity.class);
+                Intent i = new Intent(getApplicationContext(), SignUpActivity.class);
                 startActivity(i);
                 break;
         }

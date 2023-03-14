@@ -9,7 +9,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.example.practicaps.fragments.CalendarFragment;
 import com.example.practicaps.fragments.ForoFragment;
-import com.example.practicaps.utils.Usuarios;
+import com.example.practicaps.utils.User;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -20,19 +20,14 @@ import com.google.firebase.database.ValueEventListener;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.Iterator;
 
 public class MenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -95,10 +90,10 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         referenciaTipo.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Usuarios usuarios = dataSnapshot.getValue(Usuarios.class);
+                User user = dataSnapshot.getValue(User.class);
                 System.out.println(currentUser);
-                currentUser = usuarios.getNombre();
-                currentEmail = usuarios.getEmail();
+                currentUser = user.getNombre();
+                currentEmail = user.getEmail();
 
                 nombreEdit.setText(currentUser);
                 emailEdit.setText(currentEmail);

@@ -22,7 +22,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RegistroActivity"
+        <activity android:name=".SignUpActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".AdministradorActivity"
             android:screenOrientation="portrait"/>
