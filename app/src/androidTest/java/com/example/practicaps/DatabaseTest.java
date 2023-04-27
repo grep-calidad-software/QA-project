@@ -2,9 +2,11 @@ package com.example.practicaps;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
+import android.support.test.rule.ActivityTestRule;
+
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import com.example.practicaps.utils.Informacion;
+
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
@@ -17,8 +19,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import androidx.test.rule.ActivityTestRule;
-import androidx.test.espresso.contrib.RecyclerViewActions;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;

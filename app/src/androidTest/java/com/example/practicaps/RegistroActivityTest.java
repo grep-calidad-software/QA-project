@@ -4,8 +4,8 @@ import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.matcher.ViewMatchers;
-import androidx.test.rule.ActivityTestRule;
-import com.example.practicaps.utils.Usuarios;
+
+import com.example.practicaps.utils.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -17,10 +17,12 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import android.support.test.rule.ActivityTestRule;
+
 public class RegistroActivityTest {
 
     @Rule
-    public ActivityTestRule<RegistroActivity> activityRule = new ActivityTestRule<>(RegistroActivity.class);
+    public ActivityTestRule<SignUpActivity> activityRule = new ActivityTestRule<>(SignUpActivity.class);
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
@@ -75,11 +77,11 @@ public class RegistroActivityTest {
         // Check if the user data is successfully saved in the Firebase database
         mDatabase.child(mAuth.getCurrentUser().getUid()).get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                Usuarios usuario = task.getResult().getValue(Usuarios.class);
-                assertNotNull(usuario);
-                assertEquals(email, usuario.getEmail());
-                assertEquals(name, usuario.getNombre());
-                assertEquals(surname, usuario.getApellido());
+                User user = task.getResult().getValue(User.class);
+                assertNotNull(user);
+                assertEquals(email, user.getEmail());
+                assertEquals(name, user.getName());
+                assertEquals(surname, user.getSurname());
             }
         });
     }
