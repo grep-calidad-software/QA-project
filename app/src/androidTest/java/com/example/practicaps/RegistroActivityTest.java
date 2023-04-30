@@ -4,6 +4,7 @@ import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.rule.ActivityTestRule;
 
 import com.example.practicaps.utils.User;
 import com.google.firebase.auth.FirebaseAuth;
@@ -16,7 +17,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import android.support.test.rule.ActivityTestRule;
+
 
 public class RegistroActivityTest {
 

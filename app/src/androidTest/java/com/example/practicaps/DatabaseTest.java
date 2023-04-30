@@ -2,10 +2,10 @@ package com.example.practicaps;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
-import android.support.test.rule.ActivityTestRule;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.rule.ActivityTestRule;
 
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
