@@ -16,7 +16,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-
 import android.support.test.rule.ActivityTestRule;
 
 public class RegistroActivityTest {
@@ -35,7 +34,7 @@ public class RegistroActivityTest {
     public void setUp() {
         mAuth = FirebaseAuth.getInstance();
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://practicaps-d596b-default-rtdb.europe-west1.firebasedatabase.app/");
-        mDatabase = database.getReference("usuarios");
+
     }
 
     @After
