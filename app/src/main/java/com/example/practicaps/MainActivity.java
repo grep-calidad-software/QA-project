@@ -66,7 +66,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                                 startActivity(new Intent(MainActivity.this, MenuActivity.class));
                                 finish();
-
                             } else {
                                 Log.w("login", "signInWithEmail:failure", task.getException());
                                 Toast.makeText(getApplicationContext(), "Authentication failed.",
