@@ -56,7 +56,7 @@ public class CalendarActivity extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance();
 
-        userDbRef = database.getReference().child("Users").child(Objects.requireNonNull(mAuth.
+        userDbRef = database.getReference().child("users").child(Objects.requireNonNull(mAuth.
                 getCurrentUser()).getUid()).child("Calendar");
 
         adaptadorEventos = new AdaptadorEventos(this);

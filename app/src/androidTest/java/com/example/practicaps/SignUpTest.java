@@ -30,14 +30,12 @@ public class SignUpTest {
     @Rule
     public ActivityTestRule<SignUpActivity> activityRule = new ActivityTestRule<>(SignUpActivity.class);
 
-    private FirebaseAuth mAuth;
-    private FirebaseDatabase mDatabase;
-
-    private DatabaseReference dbUserRef;
-
     @Rule
     public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<>(MainActivity.class, false, false);
 
+    private FirebaseAuth mAuth;
+    private FirebaseDatabase mDatabase;
+    private DatabaseReference dbUserRef;
 
     @Before
     public void setUp() {

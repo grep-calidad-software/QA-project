@@ -77,23 +77,20 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             final String INPUT_PASSWORD = passwordInput.getText().toString();
 
             mAuth.createUserWithEmailAndPassword(INPUT_EMAIL, INPUT_PASSWORD)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (isSignUpSuccessful(task)) {
-                                Log.d("REGISTER", "createUserWithEmail:success");
-                                FirebaseUser currentUser = mAuth.getCurrentUser();
-                                assert currentUser != null;
+                    .addOnCompleteListener(this, task -> {
+                        if (isSignUpSuccessful(task)) {
+                            Log.d("REGISTER", "createUserWithEmail:success");
+                            FirebaseUser currentUser = mAuth.getCurrentUser();
+                            assert currentUser != null;
 
-                                registerUserInDb(currentUser.getUid());
+                            registerUserInDb(currentUser.getUid());
 
-                                displaySignUpSuccess();
+                            displaySignUpSuccess();
 
-                                emptyInputBoxes();
-                            } else {
-                                Log.w("REGISTER", "createUserWithEmail:failure", task.getException());
-                                displaySignUpFailure();
-                            }
+                            emptyInputBoxes();
+                        } else {
+                            Log.w("REGISTER", "createUserWithEmail:failure", task.getException());
+                            displaySignUpFailure();
                         }
                     });
         } else {
