@@ -19,7 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.practicaps.R;
-import com.example.practicaps.utils.Information;
+import com.example.practicaps.utils.EventInfo;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -38,7 +38,7 @@ public class DialogoCalendar extends DialogFragment {
     private ImageButton fecha;
     TextView horas;
     private View vista;
-    private Information information;
+    private EventInfo eventInfo;
 
     private OnDialogoPersoListener listener;
     String date;
@@ -84,9 +84,9 @@ public class DialogoCalendar extends DialogFragment {
             @Override
             public void onClick(View view) {
 
-                information = new Information(editText.getText().toString(),hora,mins);
-                information.setDate(date);
-                System.out.println(information);
+                eventInfo = new EventInfo(editText.getText().toString(),hora,mins);
+                eventInfo.setDate(date);
+                System.out.println(eventInfo);
 
                 guardarDataBase();
                 dismiss();
@@ -123,7 +123,7 @@ public class DialogoCalendar extends DialogFragment {
         eventoTxt.put("hora", hora);
         eventoTxt.put("min",mins);
 
-        eventoTxt.put("evento", information.getInfo());
+        eventoTxt.put("evento", eventInfo.getInfo());
 
         Map calendarAdder = new HashMap();
         calendarAdder.put(calEventRef, eventoTxt);

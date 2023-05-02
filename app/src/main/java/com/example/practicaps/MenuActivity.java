@@ -31,6 +31,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.Objects;
+
 public class MenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     String userName, currentEmail;
@@ -92,10 +94,8 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
 
     private void setHeaderInfoToLoggedUser() {
         FirebaseAuth auth = FirebaseAuth.getInstance();
-        String userID = auth.getCurrentUser().getUid();
-        final String dbUrl = "https://practicaps-d596b-default-rtdb.europe-west1.firebasedatabase.app/";
-
-        DatabaseReference dbReference = FirebaseDatabase.getInstance(dbUrl).getReference("usuarios").child(userID);
+        String userID = Objects.requireNonNull(auth.getCurrentUser()).getUid();
+        DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference("Users").child(userID);
         dbReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -142,7 +142,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_calendar:
                 loadFragment(new CalendarFragment());
                 break;
-            case  R.id.nav_chat:
+            case R.id.nav_chat:
                 loadFragment(ForoFragment.newInstance(FirebaseAuth.getInstance().getCurrentUser().getUid()));
                 break;
             case R.id.nav_cerrarSesion:

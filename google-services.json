@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "817805103760",
+    "project_id": "grep-calidad-software",
+    "storage_bucket": "grep-calidad-software.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:817805103760:android:0e441d0156569dcd07be15",
+        "android_client_info": {
+          "package_name": "com.example.practicaps"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "817805103760-opigf0psmnamv35l35khg0q6jvqraam8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcLE6RecIBfLDbaaiettdQ8RHQdb58vwI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "817805103760-opigf0psmnamv35l35khg0q6jvqraam8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

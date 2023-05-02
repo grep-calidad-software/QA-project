@@ -61,8 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                             if (task.isSuccessful() && !nameInput.getText().toString().isEmpty()
                                     && !passwordInput.getText().toString().isEmpty()) {
-                                FirebaseUser currentUser = mAuth.getCurrentUser();
-                                String uid = currentUser.getUid();
+
                                 Log.d("login", "signInWithEmail:success");
 
                                 startActivity(new Intent(MainActivity.this, MenuActivity.class));

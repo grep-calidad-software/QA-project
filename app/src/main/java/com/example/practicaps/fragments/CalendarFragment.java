@@ -16,12 +16,12 @@ import com.example.practicaps.dialogos.DialogoCalendar;
 
 import com.example.practicaps.CalendarActivity;
 import com.example.practicaps.R;
-import com.example.practicaps.utils.Information;
+import com.example.practicaps.utils.EventInfo;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class CalendarFragment  extends Fragment implements View.OnClickListener {
+public class CalendarFragment extends Fragment implements View.OnClickListener {
 
     CalendarView calendarView;
     Button buttonEventos;
@@ -67,7 +67,7 @@ public class CalendarFragment  extends Fragment implements View.OnClickListener 
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
                 date = dayOfMonth + "/" + (month + 1) + "/" + year;
 
-                Information information = new Information(date);
+                EventInfo eventInfo = new EventInfo(date);
 
                 DialogoCalendar dialogoCalendario = new DialogoCalendar();
                 Bundle args = new Bundle();
