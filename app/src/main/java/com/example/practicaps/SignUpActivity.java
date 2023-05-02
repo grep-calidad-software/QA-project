@@ -77,27 +77,24 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             final String INPUT_PASSWORD = passwordInput.getText().toString();
 
             mAuth.createUserWithEmailAndPassword(INPUT_EMAIL, INPUT_PASSWORD)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (isSignUpSuccessful(task)) {
-                                Log.d("REGISTER", "createUserWithEmail:success");
-                                FirebaseUser currentUser = mAuth.getCurrentUser();
-                                assert currentUser != null;
+                    .addOnCompleteListener(this, task -> {
+                        if (isSignUpSuccessful(task)) {
+                            Log.d("REGISTER", "createUserWithEmail:success");
+                            FirebaseUser currentUser = mAuth.getCurrentUser();
+                            assert currentUser != null;
 
-                                registerUserInDb(currentUser.getUid());
+                            registerUserInDb(currentUser.getUid());
 
-                                displaySignUpSuccess();
+                            displaySignUpSuccess();
 
-                                emptyInputBoxes();
-                            } else {
-                                Log.w("REGISTER", "createUserWithEmail:failure", task.getException());
-                                displaySignUpFailure();
-                            }
+                            emptyInputBoxes();
+                        } else {
+                            Log.w("REGISTER", "createUserWithEmail:failure", task.getException());
+                            displaySignUpFailure();
                         }
                     });
         } else {
-            Toast.makeText(getApplicationContext(), "Passwords don't match", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -121,12 +118,12 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     private void displaySignUpSuccess(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-        builder.setTitle("Sign up dialog:");
-        builder.setMessage("Account successfully created");
+        builder.setTitle("Registro:");
+        builder.setMessage("Cuenta creada exitosamente");
     }
 
     private void displaySignUpFailure(){
-        Toast.makeText(getApplicationContext(), "Authentication failed.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Registro fallido.", Toast.LENGTH_SHORT).show();
     }
 
     @Override
