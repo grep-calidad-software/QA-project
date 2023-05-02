@@ -1,5 +1,6 @@
 package com.example.practicaps;
 
+import static androidx.core.content.ContextCompat.startActivity;
 import static org.junit.Assert.assertNotNull;
 
 import androidx.test.espresso.Espresso;
@@ -11,6 +12,8 @@ import androidx.test.espresso.matcher.ViewMatchers;
 import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.annotation.NonNull;
+import androidx.test.rule.ActivityTestRule;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,9 +35,14 @@ import com.google.firebase.database.FirebaseDatabase;
 
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 
 public class InterfaceTests {
+
+    @Rule
+    public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<>(MainActivity.class, false, false);
+
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
@@ -42,6 +50,7 @@ public class InterfaceTests {
 
     @Before
     public void setUp(){
+        mActivityRule.launchActivity(new Intent());;
         mAuth = FirebaseAuth.getInstance();
         FirebaseDatabase db = FirebaseDatabase.getInstance("https://practicaps-d596b-default-rtdb.europe-west1.firebasedatabase.app/");
         mDatabase = db.getReference("usuarios");
@@ -56,14 +65,13 @@ public class InterfaceTests {
     //y comprobaremos que se cambia a la interfaz de la pantalla principal
     @Test
     public void TestInicioSesión(){
-        String email = "test@gmail.com";
+        String email = "testInterfaz@gmail.com";
         String password ="123456";
 
         //Rellenamos los campos de email y contraseña con los datos de la cuenta existente
         Espresso.onView(ViewMatchers.withId(R.id.edit_usuario_log)).perform(ViewActions.typeText(email));
         Espresso.onView(ViewMatchers.withId(R.id.edit_pass_log)).perform(ViewActions.typeText(password));
         Espresso.onView(ViewMatchers.withId(R.id.button_log)).perform(ViewActions.click());
-
         //Comprobamos que se ha cambiado a la interfaz de la pantalla principal y que el usuario existe
         Espresso.onView(ViewMatchers.withId(R.id.button_log)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
         assertNotNull(mAuth.getCurrentUser());
