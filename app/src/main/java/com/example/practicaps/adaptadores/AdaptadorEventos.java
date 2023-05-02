@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AdaptadorEventos extends RecyclerView.Adapter<EventHolder> {
-    private List<Information> listMensaje = new ArrayList();
+    public List<Information> listMensaje = new ArrayList();
 
     private Context c;
 
@@ -28,7 +28,7 @@ public class AdaptadorEventos extends RecyclerView.Adapter<EventHolder> {
     public void addEvento(Information i){
 
         listMensaje.add(i);
-        notifyItemInserted(listMensaje.size());
+        //notifyItemInserted(listMensaje.size());
     }
 
     @NonNull
