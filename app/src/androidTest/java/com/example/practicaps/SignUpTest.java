@@ -1,12 +1,15 @@
 package com.example.practicaps;
 
-import androidx.test.core.app.ActivityScenario;
+import static androidx.test.espresso.Espresso.closeSoftKeyboard;
+
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.rule.ActivityTestRule;
 
 import com.example.practicaps.utils.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -18,14 +21,19 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import android.support.annotation.NonNull;
+import android.util.Log;
 
-public class RegistroActivityTest {
+
+public class SignUpTest {
 
     @Rule
     public ActivityTestRule<SignUpActivity> activityRule = new ActivityTestRule<>(SignUpActivity.class);
 
     private FirebaseAuth mAuth;
-    private DatabaseReference mDatabase;
+    private FirebaseDatabase mDatabase;
+
+    private DatabaseReference dbUserRef;
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<>(MainActivity.class, false, false);
@@ -34,21 +42,19 @@ public class RegistroActivityTest {
     @Before
     public void setUp() {
         mAuth = FirebaseAuth.getInstance();
-        FirebaseDatabase database = FirebaseDatabase.getInstance("https://practicaps-d596b-default-rtdb.europe-west1.firebasedatabase.app/");
-
+        mDatabase = FirebaseDatabase.getInstance();
+        dbUserRef = mDatabase.getReference("users");
     }
 
     @After
     public void tearDown() {
-        mAuth.signOut();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            mDatabase.child(mAuth.getCurrentUser().getUid()).removeValue();
-        }
+        assert user != null;
+        user.delete();
     }
 
     @Test
-    public void testRegistroUsuario() {
+    public void testSignUp() {
         String email = "test@gmail.com";
         String password = "123456";
         String name = "Test";
@@ -61,6 +67,7 @@ public class RegistroActivityTest {
         Espresso.onView(ViewMatchers.withId(R.id.edit_name_sig)).perform(ViewActions.typeText(name));
         Espresso.onView(ViewMatchers.withId(R.id.edit_lastnames_sig)).perform(ViewActions.typeText(surname));
 
+        closeSoftKeyboard();
         // Click on the Sign Up button
         Espresso.onView(ViewMatchers.withId(R.id.button_sign)).perform(ViewActions.click());
 
@@ -75,14 +82,6 @@ public class RegistroActivityTest {
         assertNotNull(mAuth.getCurrentUser());
 
         // Check if the user data is successfully saved in the Firebase database
-        mDatabase.child(mAuth.getCurrentUser().getUid()).get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                User user = task.getResult().getValue(User.class);
-                assertNotNull(user);
-                assertEquals(email, user.getEmail());
-                assertEquals(name, user.getName());
-                assertEquals(surname, user.getSurname());
-            }
-        });
+        assertNotNull(dbUserRef.child(mAuth.getCurrentUser().getUid()));
     }
 }

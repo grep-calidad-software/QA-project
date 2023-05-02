@@ -35,10 +35,13 @@ import java.util.Objects;
 
 public class MenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    String userName, currentEmail;
-    TextView displayedName, displayedEmail;
-    Toolbar topToolbar;
+    private String userName, currentEmail;
+    private TextView displayedName, displayedEmail;
+    private Toolbar topToolbar;
 
+    private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
+    private final DatabaseReference usersDbRef = FirebaseDatabase.getInstance().getReference("users");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,15 +96,18 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void setHeaderInfoToLoggedUser() {
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        String userID = Objects.requireNonNull(auth.getCurrentUser()).getUid();
-        DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference("Users").child(userID);
-        dbReference.addListenerForSingleValueEvent(new ValueEventListener() {
+
+        String userID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
+
+        DatabaseReference userRef = usersDbRef.child(userID);
+
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
 
                 assert user != null;
+
                 userName = user.getName();
                 currentEmail = user.getEmail();
 

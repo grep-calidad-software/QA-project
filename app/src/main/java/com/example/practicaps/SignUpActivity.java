@@ -97,7 +97,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                         }
                     });
         } else {
-            System.out.println("borrar");
             Toast.makeText(getApplicationContext(), "Passwords don't match", Toast.LENGTH_SHORT).show();
         }
     }
