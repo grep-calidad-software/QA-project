@@ -31,12 +31,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.Objects;
+
 public class MenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    String userName, currentEmail;
-    TextView displayedName, displayedEmail;
-    Toolbar topToolbar;
+    private String userName, currentEmail;
+    private TextView displayedName, displayedEmail;
+    private Toolbar topToolbar;
 
+    private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
+    private final DatabaseReference usersDbRef = FirebaseDatabase.getInstance().getReference("users");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,17 +96,18 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void setHeaderInfoToLoggedUser() {
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        String userID = auth.getCurrentUser().getUid();
-        final String dbUrl = "https://practicaps-d596b-default-rtdb.europe-west1.firebasedatabase.app/";
 
-        DatabaseReference dbReference = FirebaseDatabase.getInstance(dbUrl).getReference("usuarios").child(userID);
-        dbReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        String userID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
+
+        DatabaseReference userRef = usersDbRef.child(userID);
+
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
 
                 assert user != null;
+
                 userName = user.getName();
                 currentEmail = user.getEmail();
 
@@ -142,7 +148,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_calendar:
                 loadFragment(new CalendarFragment());
                 break;
-            case  R.id.nav_chat:
+            case R.id.nav_chat:
                 loadFragment(ForoFragment.newInstance(FirebaseAuth.getInstance().getCurrentUser().getUid()));
                 break;
             case R.id.nav_cerrarSesion:

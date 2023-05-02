@@ -11,24 +11,24 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.practicaps.R;
 
 import com.example.practicaps.holders.EventHolder;
-import com.example.practicaps.utils.Information;
+import com.example.practicaps.utils.EventInfo;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AdaptadorEventos extends RecyclerView.Adapter<EventHolder> {
-    public List<Information> listMensaje = new ArrayList();
+    private final List<EventInfo> eventInfos = new ArrayList<>();
 
-    private Context c;
+    private final Context c;
 
     public AdaptadorEventos(Context c) {
         this.c = c;
     }
 
-    public void addEvento(Information i){
+    public void addEvento(EventInfo i){
 
-        listMensaje.add(i);
-        //notifyItemInserted(listMensaje.size());
+        eventInfos.add(i);
+        notifyItemInserted(eventInfos.size());
     }
 
     @NonNull
@@ -41,11 +41,11 @@ public class AdaptadorEventos extends RecyclerView.Adapter<EventHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull EventHolder holder, int position) {
-        holder.getName().setText(listMensaje.get(position).getInfo());
-        holder.getDate().setText(listMensaje.get(position).getDate());
+        holder.getName().setText(eventInfos.get(position).getInfo());
+        holder.getDate().setText(eventInfos.get(position).getDate());
 
-        int hora = listMensaje.get(position).getHour();
-        int min = listMensaje.get(position).getMinute();
+        int hora = eventInfos.get(position).getHour();
+        int min = eventInfos.get(position).getMinute();
 
         StringBuilder sb = new StringBuilder();
         sb.append(hora);
@@ -56,6 +56,6 @@ public class AdaptadorEventos extends RecyclerView.Adapter<EventHolder> {
 
     @Override
     public int getItemCount() {
-        return listMensaje.size();
+        return eventInfos.size();
     }
 }

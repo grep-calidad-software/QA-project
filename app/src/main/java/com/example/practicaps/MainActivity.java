@@ -14,6 +14,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -61,8 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                             if (task.isSuccessful() && !nameInput.getText().toString().isEmpty()
                                     && !passwordInput.getText().toString().isEmpty()) {
-                                FirebaseUser currentUser = mAuth.getCurrentUser();
-                                String uid = currentUser.getUid();
+
                                 Log.d("login", "signInWithEmail:success");
 
                                 startActivity(new Intent(MainActivity.this, MenuActivity.class));

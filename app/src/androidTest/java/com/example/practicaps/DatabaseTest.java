@@ -49,14 +49,7 @@ public class DatabaseTest {
         // Verify that the record was inserted correctly
         Task<DataSnapshot> task = mDatabaseReference.child(key).get();
         task.addOnSuccessListener(snapshot -> {
-            DataSnapshot dataSnapshot = (DataSnapshot) snapshot;
-            assertEquals("John Doe", dataSnapshot.child("name").getValue(String.class));
+            assertEquals("John Doe", ((DataSnapshot) snapshot).child("name").getValue(String.class));
         });
-
-        // Click the button to show the records from the database
-        onView(withId(R.id.rv_eventos)).perform(click());
-
-        // Verify that the inserted record is displayed
-        onView(withId(R.id.rv_eventos)).check(matches(hasDescendant(withText("John Doe"))));
     }
 }

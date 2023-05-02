@@ -12,6 +12,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.practicaps.utils.User;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -75,9 +76,26 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             final String INPUT_EMAIL = emailInput.getText().toString();
             final String INPUT_PASSWORD = passwordInput.getText().toString();
 
-            Task<AuthResult> registerTask = mAuth.createUserWithEmailAndPassword(INPUT_EMAIL, INPUT_PASSWORD);
+            mAuth.createUserWithEmailAndPassword(INPUT_EMAIL, INPUT_PASSWORD)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (isSignUpSuccessful(task)) {
+                                Log.d("REGISTER", "createUserWithEmail:success");
+                                FirebaseUser currentUser = mAuth.getCurrentUser();
+                                assert currentUser != null;
 
-            addOnCompleteListenerToRegTask(registerTask);
+                                registerUserInDb(currentUser.getUid());
+
+                                displaySignUpSuccess();
+
+                                emptyInputBoxes();
+                            } else {
+                                Log.w("REGISTER", "createUserWithEmail:failure", task.getException());
+                                displaySignUpFailure();
+                            }
+                        }
+                    });
         } else {
             Toast.makeText(getApplicationContext(), "Passwords don't match", Toast.LENGTH_SHORT).show();
         }
@@ -85,28 +103,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     private boolean passwordsMatch(){
         return passwordInput.getText().toString().equals(confirmPasswordInput.getText().toString());
-    }
-
-    public void addOnCompleteListenerToRegTask(Task<AuthResult> registerTask){
-        registerTask.addOnCompleteListener(this, task -> {
-
-            if (isSignUpSuccessful(task)) {
-
-                Log.d("login", "createUserWithEmail:success");
-
-                FirebaseUser currentUser = mAuth.getCurrentUser();
-                assert currentUser != null;
-                registerUserInDb(currentUser.getUid());
-
-                displaySignUpSuccess();
-
-                emptyInputBoxes();
-
-            } else {
-                Log.d("login", "createUserWithEmail:failure", task.getException());
-                displaySignUpFailure();
-            }
-        });
     }
 
     private boolean isSignUpSuccessful(@NonNull Task<AuthResult> task){
@@ -119,11 +115,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         User user = new User(uid, emailInput.getText().toString(),
                 nameInput.getText().toString(), surnameInput.getText().toString());
 
-        final String dbUrl = "https://practicaps-d596b-default-rtdb.europe-west1.firebasedatabase.app/";
-
-        FirebaseDatabase database = FirebaseDatabase.getInstance(dbUrl);
-        DatabaseReference reference = database.getReference("usuarios").child(user.getUid());
-        reference.setValue(user);
+        DatabaseReference userReference = FirebaseDatabase.getInstance().getReference("users").child(user.getUid());
+        userReference.setValue(user);
     }
 
     private void displaySignUpSuccess(){
