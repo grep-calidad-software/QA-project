@@ -154,6 +154,10 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_cerrarSesion:
                 returnToLoginScreen();
                 break;
+            case R.id.nav_delete:
+                Intent deleteActivityIntent = new Intent(getApplicationContext(), DeleteAccountActivity.class);
+                startActivity(deleteActivityIntent);
+                break;
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

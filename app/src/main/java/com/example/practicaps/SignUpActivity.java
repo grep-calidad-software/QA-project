@@ -94,7 +94,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                         }
                     });
         } else {
-            Toast.makeText(getApplicationContext(), "Passwords don't match", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -118,12 +118,12 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     private void displaySignUpSuccess(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-        builder.setTitle("Sign up dialog:");
-        builder.setMessage("Account successfully created");
+        builder.setTitle("Registro:");
+        builder.setMessage("Cuenta creada exitosamente");
     }
 
     private void displaySignUpFailure(){
-        Toast.makeText(getApplicationContext(), "Authentication failed.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Registro fallido.", Toast.LENGTH_SHORT).show();
     }
 
     @Override
