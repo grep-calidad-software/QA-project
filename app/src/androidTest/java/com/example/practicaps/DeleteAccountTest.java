@@ -42,9 +42,12 @@ public class DeleteAccountTest {
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance();
         dbUsersRef = mDatabase.getReference("users");
+        mAuth.signOut();
 
         mAuth.createUserWithEmailAndPassword("testDelete@gmail.com", PSW);
     }
+
+
 
     private final String PSW = "123456";
 
@@ -73,4 +76,6 @@ public class DeleteAccountTest {
 
         assertNull(mAuth.getCurrentUser());
     }
+
+
 }

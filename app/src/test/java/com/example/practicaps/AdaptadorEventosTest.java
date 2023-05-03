@@ -2,7 +2,8 @@ package com.example.practicaps;
 
 
 import com.example.practicaps.adaptadores.AdaptadorEventos;
-import com.example.practicaps.utils.Information;
+import com.example.practicaps.utils.EventInfo;
+
 
 import org.junit.Before;
 import org.junit.Test;
@@ -22,20 +23,20 @@ public class AdaptadorEventosTest {
     public void addEventoTest() {
         // Check if addEvento method increases item count
         int itemCount = adaptador.getItemCount();
-        adaptador.addEvento(new Information("Event 1", 10, 30));
+        adaptador.addEvento(new EventInfo("Event 1", 10, 30));
         assertEquals(itemCount + 1, adaptador.getItemCount());
 
         // Add Event 2
         itemCount = adaptador.getItemCount();
-        adaptador.addEvento(new Information("Event 2", 14, 0));
+        adaptador.addEvento(new EventInfo("Event 2", 14, 0));
         assertEquals(itemCount + 1, adaptador.getItemCount());
     }
 
     @Test
     public void getItemCountTest() {
         // Check if getItemCount() returns correct count
-        adaptador.addEvento(new Information("Event 1", 10, 30));
-        adaptador.addEvento(new Information("Event 2", 14, 0));
+        adaptador.addEvento(new EventInfo("Event 1", 10, 30));
+        adaptador.addEvento(new EventInfo("Event 2", 14, 0));
 
         assertEquals(2, adaptador.getItemCount());
     }

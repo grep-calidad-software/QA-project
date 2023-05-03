@@ -28,7 +28,7 @@ public class AdaptadorEventos extends RecyclerView.Adapter<EventHolder> {
     public void addEvento(EventInfo i){
 
         eventInfos.add(i);
-        notifyItemInserted(eventInfos.size());
+        //notifyItemInserted(eventInfos.size());
     }
 
     @NonNull

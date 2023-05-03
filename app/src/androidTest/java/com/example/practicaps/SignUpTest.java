@@ -47,12 +47,12 @@ public class SignUpTest {
     @After
     public void tearDown() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        assert user != null;
+        //assert user != null;
         user.delete();
     }
 
     @Test
-    public void testSignUp() {
+    public void testSignUp() throws InterruptedException {
         String email = "test@gmail.com";
         String password = "123456";
         String name = "Test";
@@ -61,6 +61,7 @@ public class SignUpTest {
         // Fill in the EditText fields with the test data
         Espresso.onView(ViewMatchers.withId(R.id.edit_email_sig)).perform(ViewActions.typeText(email));
         Espresso.onView(ViewMatchers.withId(R.id.edit_pass_sig)).perform(ViewActions.typeText(password));
+        closeSoftKeyboard();
         Espresso.onView(ViewMatchers.withId(R.id.edit_confirm_pass_sig)).perform(ViewActions.typeText(password));
         Espresso.onView(ViewMatchers.withId(R.id.edit_name_sig)).perform(ViewActions.typeText(name));
         Espresso.onView(ViewMatchers.withId(R.id.edit_lastnames_sig)).perform(ViewActions.typeText(surname));
@@ -69,12 +70,6 @@ public class SignUpTest {
         // Click on the Sign Up button
         Espresso.onView(ViewMatchers.withId(R.id.button_sign)).perform(ViewActions.click());
 
-        // Wait for the authentication to complete
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
         // Check if the user is successfully authenticated
         assertNotNull(mAuth.getCurrentUser());

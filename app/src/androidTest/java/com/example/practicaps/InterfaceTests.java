@@ -18,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Rule;
@@ -41,6 +42,7 @@ public class InterfaceTests {
     public void setUp(){
         mAuth = FirebaseAuth.getInstance();
         FirebaseDatabase db = FirebaseDatabase.getInstance();
+        mAuth.createUserWithEmailAndPassword("testInterfaz@gmail.com", "123456");
     }
 
 
@@ -83,6 +85,8 @@ public class InterfaceTests {
 
     @Test
     public void TestLogout() {
+
+
         //Comprobamos que se cierra sesión y vuelve a la pantalla de inicio de sesión
         mMenuActivityRule.launchActivity(new Intent());
         Espresso.onView(ViewMatchers.withId(R.id.cerrar_sesion)).perform(ViewActions.click());
@@ -91,6 +95,11 @@ public class InterfaceTests {
         Espresso.onView(ViewMatchers.withId(R.id.edit_usuario_log)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
         Espresso.onView(ViewMatchers.withId(R.id.edit_pass_log)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
         Espresso.onView(ViewMatchers.withId(R.id.button_log)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+    }
+
+    @After
+    public void tearDown(){
+        mAuth.signOut();
     }
 
 
