@@ -21,6 +21,8 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import static java.lang.Thread.sleep;
+
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -42,23 +44,29 @@ public class SignUpTest {
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance();
         dbUserRef = mDatabase.getReference("users");
-    }
 
+        mAuth.signInWithEmailAndPassword(email, password);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null)
+            user.delete();
+        mAuth.signOut();
+    }
     @After
     public void tearDown() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         //assert user != null;
-        user.delete();
+        if (user != null)
+            user.delete();
     }
+
+    String email = "test@gmail.com";
+    String password = "123456";
+    String name = "Test";
+    String surname = "User";
 
     @Test
     public void testSignUp() throws InterruptedException {
-        String email = "test@gmail.com";
-        String password = "123456";
-        String name = "Test";
-        String surname = "User";
 
-        // Fill in the EditText fields with the test data
         Espresso.onView(ViewMatchers.withId(R.id.edit_email_sig)).perform(ViewActions.typeText(email));
         Espresso.onView(ViewMatchers.withId(R.id.edit_pass_sig)).perform(ViewActions.typeText(password));
         closeSoftKeyboard();
@@ -67,14 +75,12 @@ public class SignUpTest {
         Espresso.onView(ViewMatchers.withId(R.id.edit_lastnames_sig)).perform(ViewActions.typeText(surname));
 
         closeSoftKeyboard();
-        // Click on the Sign Up button
         Espresso.onView(ViewMatchers.withId(R.id.button_sign)).perform(ViewActions.click());
 
+        sleep(5000);
 
-        // Check if the user is successfully authenticated
         assertNotNull(mAuth.getCurrentUser());
-
-        // Check if the user data is successfully saved in the Firebase database
+        
         assertNotNull(dbUserRef.child(mAuth.getCurrentUser().getUid()));
     }
 }
